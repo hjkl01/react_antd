@@ -103,15 +103,16 @@ function Meituan() {
 
         // console.log(params);
         interface Param {
-          offset: string;
-          limit: string;
+          offset: number;
+          limit: number;
         }
         let req_params: Param = {
           offset: params.current * 15,
           limit: "15",
         };
 
-        const msg = await request.get("http://localhost:7109/api/meituan", {
+        let baseUrl = "https://me.hjkl01.cn:19001/api/meituan";
+        const msg = await request.get(baseUrl, {
           params: req_params,
         });
 
