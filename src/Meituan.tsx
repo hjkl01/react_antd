@@ -98,11 +98,21 @@ function Meituan() {
       actionRef={actionRef}
       cardBordered
       request={async (params = {}, sort, filter) => {
-        console.log(sort, filter);
-        await waitTime(500);
+        // console.log(sort, filter);
+        await waitTime(100);
+
+        // console.log(params);
+        interface Param {
+          offset: string;
+          limit: string;
+        }
+        let req_params: Param = {
+          offset: params.current * 15,
+          limit: "15",
+        };
 
         const msg = await request.get("http://localhost:7109/api/meituan", {
-          params: params,
+          params: req_params,
         });
 
         return {
@@ -143,7 +153,7 @@ function Meituan() {
         },
       }}
       pagination={{
-        pageSize: 5,
+        pageSize: 15,
         onChange: (page) => console.log("page", page),
       }}
       dateFormatter="string"
@@ -159,29 +169,29 @@ function Meituan() {
         >
           新建
         </Button>,
-        <Dropdown
-          key="menu"
-          menu={{
-            items: [
-              {
-                label: "1st item",
-                key: "1",
-              },
-              {
-                label: "2nd item",
-                key: "1",
-              },
-              {
-                label: "3rd item",
-                key: "1",
-              },
-            ],
-          }}
-        >
-          <Button>
-            <EllipsisOutlined />
-          </Button>
-        </Dropdown>,
+        // <Dropdown
+        //   key="menu"
+        //   menu={{
+        //     items: [
+        //       {
+        //         label: "1st item",
+        //         key: "1",
+        //       },
+        //       {
+        //         label: "2nd item",
+        //         key: "1",
+        //       },
+        //       {
+        //         label: "3rd item",
+        //         key: "1",
+        //       },
+        //     ],
+        //   }}
+        // >
+        //   <Button>
+        //     <EllipsisOutlined />
+        //   </Button>
+        // </Dropdown>,
       ]}
     />
   );
