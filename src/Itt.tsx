@@ -124,19 +124,13 @@ function Itt() {
         await waitTime(100);
 
         // console.log(params);
-        interface Param {
-          offset: number;
-          limit: number;
-        }
-        let req_params: Param = {
-          offset: params.current * 15,
-          limit: 15,
-        };
+        params.offset = params.current * 15;
+        params.limit = 15;
 
         // let baseUrl = "https://me.hjkl01.cn:19001/api/meituan";
         let baseUrl = "http://localhost:7109/api/itt";
         const msg = await request.get(baseUrl, {
-          params: req_params,
+          params: params,
         });
 
         return {
