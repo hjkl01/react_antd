@@ -124,11 +124,19 @@ function Itt() {
         await waitTime(100);
 
         // console.log(params);
-        params.offset = params.current * 15;
-        params.limit = 15;
+        params.page = params.current;
 
-        // let baseUrl = "https://me.hjkl01.cn:19001/api/meituan";
-        let baseUrl = "http://localhost:7109/api/itt";
+        delete params.current;
+        delete params.pageSize;
+
+        // let baseUri = "http://localhost:7109";
+        let baseUri = "https://me.hjkl01.cn:19001";
+        if ("descriptionCN" in params) {
+          delete params.prodCode;
+          var baseUrl = baseUri + "/api/itt/descCN";
+        } else {
+          var baseUrl = baseUri + "/api/itt";
+        }
         const msg = await request.get(baseUrl, {
           params: params,
         });

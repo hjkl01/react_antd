@@ -102,18 +102,13 @@ function Meituan() {
         await waitTime(100);
 
         // console.log(params);
-        interface Param {
-          offset: number;
-          limit: number;
-        }
-        let req_params: Param = {
-          offset: params.current * 15,
-          limit: "15",
-        };
+        params.page = params.current;
+        delete params.current;
+        delete params.pageSize;
 
         let baseUrl = "https://me.hjkl01.cn:19001/api/meituan";
         const msg = await request.get(baseUrl, {
-          params: req_params,
+          params: params,
         });
 
         return {
