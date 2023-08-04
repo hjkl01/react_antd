@@ -62,7 +62,23 @@ const columns: ProColumns<IttItem>[] = [
     // search: false,
     filters: true,
     onFilter: true,
+    tip: "搜索该项时需要完全匹配",
     dataIndex: "prodCode",
+  },
+  {
+    title: "描述",
+    dataIndex: "descriptionCN",
+    copyable: true,
+    ellipsis: true,
+    tip: "搜索该项时为包含关系",
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: "此项为必填项",
+        },
+      ],
+    },
   },
   {
     disable: true,
@@ -75,21 +91,6 @@ const columns: ProColumns<IttItem>[] = [
     title: "目的地",
     // search: false,
     dataIndex: "importcountryNameCN",
-  },
-  {
-    title: "描述",
-    dataIndex: "descriptionCN",
-    copyable: true,
-    ellipsis: true,
-    tip: "标题过长会自动收缩",
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: "此项为必填项",
-        },
-      ],
-    },
   },
 
   {
@@ -130,7 +131,8 @@ function Itt() {
         delete params.pageSize;
 
         // let baseUri = "http://localhost:7109";
-        let baseUri = "https://me.hjkl01.cn:19001";
+        let baseUri = "http://dj.cpgroup.unclepi.cool";
+        // let baseUri = "https://me.hjkl01.cn:19001";
         if ("descriptionCN" in params) {
           delete params.prodCode;
           var baseUrl = baseUri + "/api/itt/descCN";
