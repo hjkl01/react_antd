@@ -1,9 +1,12 @@
 import { EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable, TableDropdown } from "@ant-design/pro-components";
-import { Button, Dropdown, Space, Tag } from "antd";
-import { useRef } from "react";
-import request from "umi-request";
+import { Button, Dropdown, Space, Tag, message } from "antd";
+import { useRef, useState } from "react";
+import request from "./api/request.tsx";
+
+import config from "./config.tsx";
+
 export const waitTimePromise = async (time: number = 100) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -114,7 +117,13 @@ const columns: ProColumns<IttItem>[] = [
 ];
 
 function Itt() {
+  const [response, setResponse] = useState("");
   const actionRef = useRef<ActionType>();
+
+  if (localStorage.getItem("access") == null) {
+    window.location.href = "/";
+  }
+
   return (
     <ProTable<IttItem>
       columns={columns}
@@ -124,30 +133,31 @@ function Itt() {
         // console.log(sort, filter);
         await waitTime(100);
 
-        // console.log(params);
-        params.page = params.current;
+        console.log("params" + params.current);
 
-        delete params.current;
-        delete params.pageSize;
-
-        // let baseUri = "http://localhost:7109";
-        let baseUri = "http://dj.cpgroup.unclepi.cool";
-        // let baseUri = "https://me.hjkl01.cn:19001";
         if ("descriptionCN" in params) {
           delete params.prodCode;
-          var baseUrl = baseUri + "/api/itt/descCN";
+          var Url =
+            config.baseUrl + "/api/itt/descCN/" + "?page=" + params.current;
         } else {
-          var baseUrl = baseUri + "/api/itt";
+          var Url = config.baseUrl + "/api/itt/" + "?page=" + params.current;
         }
-        const msg = await request.get(baseUrl, {
-          params: params,
-        });
 
-        return {
-          data: msg.results,
-          success: true,
-          total: msg.count,
-        };
+        const response = await request(Url, {
+          ...params,
+        })
+          .then((res) => {
+            const result = {
+              data: res.results,
+              total: res.count,
+              success: true,
+              pageSize: 15,
+              current: params.current,
+            };
+            return result;
+          })
+          .catch((err) => console.log(err));
+        return Promise.resolve(response);
       }}
       editable={{
         type: "multiple",
