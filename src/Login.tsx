@@ -24,6 +24,7 @@ async function getToken(username: string, password: string) {
     }
   } catch (error) {
     console.error("Error while fetching token:", error);
+    message.warning("登录失败 " + error.message);
     throw error;
   }
 }
@@ -33,18 +34,11 @@ function LoginForm() {
   const onFinish = async (values) => {
     console.log("Received values of form: ", values);
     message.success("提交成功");
-    // message.success(values.username);
-    // message.success(values.password);
 
-    try {
-      const token = await getToken(values.username, values.password);
-      console.log("Token", token);
-      // sleep(2000);
-      // window.location.reload();
-      window.location.href = "/itt/";
-    } catch (error) {
-      console.log(error);
-    }
+    const token = await getToken(values.username, values.password);
+    console.log("Token", token);
+    window.location.href = "/itt/";
+    message.success("正在跳转");
   };
 
   return (
