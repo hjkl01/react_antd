@@ -86,13 +86,13 @@ const columns: ProColumns<IttItem>[] = [
   {
     disable: true,
     title: "原产地",
-    // search: false,
+    search: false,
     dataIndex: "exportcountryNameCN",
   },
   {
     disable: true,
     title: "目的地",
-    // search: false,
+    search: false,
     dataIndex: "importcountryNameCN",
   },
 
