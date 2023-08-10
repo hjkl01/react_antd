@@ -74,14 +74,6 @@ const columns: ProColumns<IttItem>[] = [
     copyable: true,
     ellipsis: true,
     tip: "搜索该项时为包含关系",
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: "此项为必填项",
-        },
-      ],
-    },
   },
   {
     disable: true,
@@ -134,11 +126,17 @@ function Itt() {
         await waitTime(100);
 
         console.log("params" + params.current);
+        console.log("params" + params.descriptionCN);
 
         if ("descriptionCN" in params) {
           delete params.prodCode;
           var Url =
-            config.baseUrl + "/api/itt/descCN/" + "?page=" + params.current;
+            config.baseUrl +
+            "/api/itt/descCN/" +
+            "?descriptionCN=" +
+            params.descriptionCN +
+            "&page=" +
+            params.current;
         } else {
           var Url = config.baseUrl + "/api/itt/" + "?page=" + params.current;
         }
